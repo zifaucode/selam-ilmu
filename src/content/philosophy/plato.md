@@ -1,14 +1,15 @@
 ---
-title: "Plato"
-slug: "plato"
-category: "philosophy"
+title: Plato
+slug: plato
+category: philosophy
 tags:
   - filsafat
   - yunani
   - platonisme
-summary: "Filsuf Yunani Kuno pendiri Akademia, guru Aristoteles, dan murid Socrates. Pemikirannya tentang dunia Idea menjadi fondasi filsafat Barat."
-author: "Admin"
+summary: Filsuf Yunani Kuno pendiri Akademia, guru Aristoteles, dan murid Socrates. Pemikirannya tentang dunia Idea menjadi fondasi filsafat Barat.
+author: Admin
 createdAt: 2026-01-15
+image: /images/uploads/plato.PNG
 related:
   - socrates
   - aristoteles
@@ -17,6 +18,8 @@ related:
 # Plato (428–348 SM)
 
 Plato adalah seorang filsuf Yunani Kuno yang lahir di Athena. Ia adalah murid dari **Socrates** dan guru dari **Aristoteles**. Bersama keduanya, Plato dianggap sebagai salah satu pendiri tradisi filsafat Barat.
+
+![plato](/images/uploads/plato.PNG "plato")
 
 ## Latar Belakang
 
@@ -28,20 +31,20 @@ Peristiwa kematian Socrates mendorong Plato untuk mengabdikan hidupnya pada penc
 
 ### Teori Idea (Forms)
 
-Inti pemikiran Plato adalah **Teori Idea** (*Theory of Forms*). Menurut Plato, realitas yang kita alami melalui panca indera hanyalah bayangan dari dunia yang lebih tinggi — **Dunia Idea**.
+Inti pemikiran Plato adalah **Teori Idea** (_Theory of Forms_). Menurut Plato, realitas yang kita alami melalui panca indera hanyalah bayangan dari dunia yang lebih tinggi — **Dunia Idea**.
 
 - **Dunia Indrawi**: Dunia fisik yang kita alami, bersifat sementara dan berubah-ubah.
 - **Dunia Idea**: Dunia abstrak yang berisi bentuk-bentuk sempurna dan abadi.
 
 ### Alegori Gua
 
-Dalam karya *Politeia* (Republik), Plato menggambarkan **Alegori Gua** — sebuah metafora tentang manusia yang terkurung dalam gua dan hanya melihat bayangan di dinding, mengira bayangan itulah kenyataan.
+Dalam karya _Politeia_ (Republik), Plato menggambarkan **Alegori Gua** — sebuah metafora tentang manusia yang terkurung dalam gua dan hanya melihat bayangan di dinding, mengira bayangan itulah kenyataan.
 
 > "Orang-orang yang terkurung dalam gua menganggap bayangan adalah kenyataan, karena mereka tidak pernah melihat sumber cahaya."
 
 ### Negara Ideal
 
-Plato juga menulis tentang negara ideal yang dipimpin oleh **Raja Filsuf** (*Philosopher King*) — seorang pemimpin yang memiliki kebijaksanaan dan pengetahuan tentang kebaikan.
+Plato juga menulis tentang negara ideal yang dipimpin oleh **Raja Filsuf** (_Philosopher King_) — seorang pemimpin yang memiliki kebijaksanaan dan pengetahuan tentang kebaikan.
 
 ## Karya-Karya Penting
 
