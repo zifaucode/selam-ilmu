@@ -9,7 +9,7 @@ tags:
 summary: Filsuf Yunani Kuno yang dikenal sebagai Bapak Filsafat Barat. Metode dialektikanya menjadi dasar pemikiran kritis hingga kini.
 author: Admin
 createdAt: 2026-01-10
-image: /images/uploads/scorates.PNG
+image: /images/uploads/scorates.webp
 related:
   - plato
   - aristoteles
@@ -19,7 +19,7 @@ related:
 
 Socrates adalah filsuf Yunani Kuno dari Athena yang secara luas dianggap sebagai salah satu pendiri filsafat Barat. Meskipun tidak pernah menulis karya apapun, pemikirannya dikenal melalui tulisan murid-muridnya, terutama **Plato** dan **Xenophon**.
 
-![Socrates](/images/uploads/scorates.PNG "Socrates")
+![Socrates](/images/uploads/scorates.webp "Socrates")
 
 ## Metode Sokratik
 
