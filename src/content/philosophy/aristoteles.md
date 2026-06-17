@@ -9,7 +9,7 @@ tags:
 summary: Filsuf Yunani Kuno murid Plato dan guru Alexander Agung. Bapak Logika dan kontributor besar dalam metafisika, etika, dan sains.
 author: Admin
 createdAt: 2026-01-05
-image: /images/uploads/aristoteles.PNG
+image: /images/uploads/aristoteles.webp
 related:
   - plato
   - socrates
@@ -19,7 +19,7 @@ related:
 
 Aristoteles adalah filsuf dan ilmuwan Yunani Kuno, murid **Plato** di Akademia selama hampir 20 tahun, dan kemudian menjadi guru **Alexander Agung**. Ia mendirikan sekolah filsafatnya sendiri, **Lyceum**, di Athena.
 
-![aristoteles](/images/uploads/aristoteles.PNG "aristoteles")
+![aristoteles](/images/uploads/aristoteles.webp "aristoteles")
 
 ## Pemikiran Utama
 
