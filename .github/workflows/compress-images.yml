@@ -1,0 +1,46 @@
+name: Auto Compress Images
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'public/images/uploads/**'
+
+jobs:
+  compress:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Diperlukan agar bot bisa melakukan commit
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Image Compression
+        run: npm run compress
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Cek apakah ada perubahan (gambar baru yang dikompres)
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git add .
+            git commit -m "chore: auto-compress new images to webp [skip ci]"
+            git push
+          else
+            echo "Tidak ada gambar baru untuk dikompres."
+          fi

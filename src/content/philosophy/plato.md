@@ -9,7 +9,7 @@ tags:
 summary: Filsuf Yunani Kuno pendiri Akademia, guru Aristoteles, dan murid Socrates. Pemikirannya tentang dunia Idea menjadi fondasi filsafat Barat.
 author: Admin
 createdAt: 2026-01-15
-image: /images/uploads/plato.PNG
+image: /images/uploads/plato.webp
 related:
   - socrates
   - aristoteles
@@ -19,7 +19,7 @@ related:
 
 Plato adalah seorang filsuf Yunani Kuno yang lahir di Athena. Ia adalah murid dari **Socrates** dan guru dari **Aristoteles**. Bersama keduanya, Plato dianggap sebagai salah satu pendiri tradisi filsafat Barat.
 
-![plato](/images/uploads/plato.PNG "plato")
+![plato](/images/uploads/plato.webp "plato")
 
 ## Latar Belakang
 
