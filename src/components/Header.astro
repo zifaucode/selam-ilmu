@@ -1,14 +1,13 @@
 ---
 const categories = [
-  { name: 'Peradaban', href: '/civilizations', letter: 'I' },
+  { name: 'Filsafat', href: '/philosophy', letter: 'I' },
   { name: 'Spiritualitas', href: '/spirituality', letter: 'II' },
   { name: 'Ketuhanan', href: '/theology', letter: 'III' },
-  { name: 'Budaya', href: '/cultures', letter: 'IV' },
-  { name: 'Kitab', href: '/scriptures', letter: 'V' },
-  { name: 'Filsafat', href: '/philosophy', letter: 'VI' },
-  { name: 'Tokoh', href: '/figures', letter: 'VII' },
-  { name: 'Buku', href: '/books', letter: 'VIII' },
-  { name: 'Glosarium', href: '/glossary', letter: 'IX' },
+  { name: 'Peradaban', href: '/civilizations', letter: 'IV' },
+  { name: 'Budaya', href: '/cultures', letter: 'V' },
+  { name: 'Tokoh', href: '/figures', letter: 'VI' },
+  { name: 'Pustaka', href: '/literatures', letter: 'VII' },
+  { name: 'Glosarium', href: '/glossary', letter: 'VIII' },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -20,12 +19,12 @@ const currentPath = Astro.url.pathname;
       
       <!-- Brand -->
       <a href="/" class="flex items-center gap-4 group" id="logo-link">
-        <div class="w-10 h-10 border border-gold-ancient/50 flex items-center justify-center relative overflow-hidden">
-          <div class="absolute inset-0 bg-gold-bright/10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-          <span class="font-display font-bold text-2xl text-gold-radiant z-10">P</span>
+        <div class="w-10 h-10 border border-gold-ancient/50 flex items-center justify-center relative overflow-hidden rounded-md">
+          <div class="absolute inset-0 bg-gold-bright/10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 z-20"></div>
+          <img src="/logo.jpg" alt="Selam Ilmu Logo" class="w-full h-full object-cover z-10" />
         </div>
         <div class="hidden sm:block">
-          <span class="font-display font-bold text-lg text-text-primary tracking-widest block uppercase leading-none">Portal Pengetahuan</span>
+          <span class="font-display font-bold text-lg text-text-primary tracking-widest block uppercase leading-none">Selam Ilmu</span>
           <span class="font-sans text-[10px] text-cyber-teal tracking-[0.3em] uppercase mt-1 block">Pustaka Digital</span>
         </div>
       </a>

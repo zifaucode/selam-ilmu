@@ -1,0 +1,151 @@
+backend:
+  name: github
+  repo: zifaucode/selam-ilmu
+  branch: main
+
+# Aktifkan ini agar bisa testing CMS di localhost tanpa login GitHub dulu
+local_backend: true
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+site_url: "https://selamilmu.com"
+display_url: "https://selamilmu.com"
+logo_url: "/logo.jpg"
+
+collections:
+  - name: "philosophy"
+    label: "Filsafat"
+    folder: "src/content/philosophy"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Judul", name: "title", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string", required: false, hint: "Kosongkan agar terisi otomatis"}
+      - {label: "Kategori", name: "category", widget: "hidden", default: "philosophy"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Ringkasan", name: "summary", widget: "text"}
+      - {label: "Penulis", name: "author", widget: "string", default: "Admin"}
+      - {label: "Tanggal Dibuat", name: "createdAt", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false}
+      - {label: "Gambar", name: "image", widget: "image", required: false}
+      - {label: "Artikel Terkait", name: "related", widget: "list", required: false}
+      - {label: "Konten", name: "body", widget: "markdown"}
+
+  - name: "spirituality"
+    label: "Spiritualitas"
+    folder: "src/content/spirituality"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Judul", name: "title", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string", required: false}
+      - {label: "Kategori", name: "category", widget: "hidden", default: "spirituality"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Ringkasan", name: "summary", widget: "text"}
+      - {label: "Penulis", name: "author", widget: "string", default: "Admin"}
+      - {label: "Tanggal Dibuat", name: "createdAt", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false}
+      - {label: "Gambar", name: "image", widget: "image", required: false}
+      - {label: "Artikel Terkait", name: "related", widget: "list", required: false}
+      - {label: "Konten", name: "body", widget: "markdown"}
+
+  - name: "theology"
+    label: "Ketuhanan"
+    folder: "src/content/theology"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Judul", name: "title", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string", required: false}
+      - {label: "Kategori", name: "category", widget: "hidden", default: "theology"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Ringkasan", name: "summary", widget: "text"}
+      - {label: "Penulis", name: "author", widget: "string", default: "Admin"}
+      - {label: "Tanggal Dibuat", name: "createdAt", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false}
+      - {label: "Gambar", name: "image", widget: "image", required: false}
+      - {label: "Artikel Terkait", name: "related", widget: "list", required: false}
+      - {label: "Konten", name: "body", widget: "markdown"}
+
+  - name: "civilizations"
+    label: "Peradaban"
+    folder: "src/content/civilizations"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Judul", name: "title", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string", required: false}
+      - {label: "Kategori", name: "category", widget: "hidden", default: "civilizations"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Ringkasan", name: "summary", widget: "text"}
+      - {label: "Penulis", name: "author", widget: "string", default: "Admin"}
+      - {label: "Tanggal Dibuat", name: "createdAt", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false}
+      - {label: "Gambar", name: "image", widget: "image", required: false}
+      - {label: "Artikel Terkait", name: "related", widget: "list", required: false}
+      - {label: "Konten", name: "body", widget: "markdown"}
+
+  - name: "cultures"
+    label: "Budaya"
+    folder: "src/content/cultures"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Judul", name: "title", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string", required: false}
+      - {label: "Kategori", name: "category", widget: "hidden", default: "cultures"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Ringkasan", name: "summary", widget: "text"}
+      - {label: "Penulis", name: "author", widget: "string", default: "Admin"}
+      - {label: "Tanggal Dibuat", name: "createdAt", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false}
+      - {label: "Gambar", name: "image", widget: "image", required: false}
+      - {label: "Artikel Terkait", name: "related", widget: "list", required: false}
+      - {label: "Konten", name: "body", widget: "markdown"}
+
+  - name: "figures"
+    label: "Tokoh"
+    folder: "src/content/figures"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Judul", name: "title", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string", required: false}
+      - {label: "Kategori", name: "category", widget: "hidden", default: "figures"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Ringkasan", name: "summary", widget: "text"}
+      - {label: "Penulis", name: "author", widget: "string", default: "Admin"}
+      - {label: "Tanggal Dibuat", name: "createdAt", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false}
+      - {label: "Gambar", name: "image", widget: "image", required: false}
+      - {label: "Artikel Terkait", name: "related", widget: "list", required: false}
+      - {label: "Konten", name: "body", widget: "markdown"}
+
+  - name: "literatures"
+    label: "Pustaka & Literatur"
+    folder: "src/content/literatures"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Judul", name: "title", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string", required: false}
+      - {label: "Kategori", name: "category", widget: "hidden", default: "literatures"}
+      - {label: "Sub Kategori", name: "sub_category", widget: "select", options: ["Kitab Suci", "Manuskrip", "Buku Klasik", "Prasasti"], required: false}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Ringkasan", name: "summary", widget: "text"}
+      - {label: "Penulis", name: "author", widget: "string", default: "Admin"}
+      - {label: "Tanggal Dibuat", name: "createdAt", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false}
+      - {label: "Gambar", name: "image", widget: "image", required: false}
+      - {label: "Artikel Terkait", name: "related", widget: "list", required: false}
+      - {label: "Konten", name: "body", widget: "markdown"}
+
+  - name: "glossary"
+    label: "Glosarium"
+    folder: "src/content/glossary"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Judul (Istilah)", name: "title", widget: "string"}
+      - {label: "Slug", name: "slug", widget: "string", required: false}
+      - {label: "Kategori", name: "category", widget: "hidden", default: "glossary"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Ringkasan (Definisi Singkat)", name: "summary", widget: "text"}
+      - {label: "Penulis", name: "author", widget: "string", default: "Admin"}
+      - {label: "Tanggal Dibuat", name: "createdAt", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false}
+      - {label: "Artikel Terkait", name: "related", widget: "list", required: false}
+      - {label: "Konten (Penjelasan Detail)", name: "body", widget: "markdown"}

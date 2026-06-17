@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Tentang Selam Ilmu";
+const description = "Mengenal lebih jauh tentang visi, misi, dan filosofi di balik perpustakaan digital Selam Ilmu.";
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="py-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto animate-slide-up">
+    <div class="mb-16 text-center">
+      <h1 class="font-display font-black text-4xl sm:text-6xl text-text-primary mb-6 uppercase tracking-tight">
+        Tentang <span class="gradient-gold">Selam Ilmu</span>
+      </h1>
+      <p class="font-serif italic text-text-secondary text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto">
+        "Menyelami samudra kebijaksanaan masa lalu untuk merangkai mercusuar masa depan."
+      </p>
+    </div>
+
+    <div class="prose-article space-y-12 bg-midnight-surface/30 p-8 sm:p-12 rounded-xl border border-midnight-border">
+      
+      <section>
+        <h2 class="font-display text-2xl text-gold-ancient uppercase tracking-widest mb-4 flex items-center gap-3">
+          <span class="w-8 h-[1px] bg-gold-ancient/50"></span>
+          Visi
+        </h2>
+        <p class="text-text-secondary leading-relaxed">
+          Selam Ilmu lahir dari kesadaran bahwa kebijaksanaan umat manusia terserak di berbagai lintasan zaman, tradisi, dan naskah kuno. Visi kami adalah membangun sebuah perpustakaan digital yang menyatukan kembali percikan-percikan pengetahuan tersebut menjadi satu kesatuan yang mudah diakses, dihayati, dan dilestarikan oleh generasi modern.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl text-gold-ancient uppercase tracking-widest mb-4 flex items-center gap-3">
+          <span class="w-8 h-[1px] bg-gold-ancient/50"></span>
+          Arsitektur 4 Pilar
+        </h2>
+        <p class="text-text-secondary leading-relaxed mb-4">
+          Untuk menghindari kebingungan dalam samudra informasi, kami menstrukturisasi pengetahuan ke dalam 4 Pilar utama:
+        </p>
+        <ul class="list-none space-y-3 text-text-secondary">
+          <li class="flex items-start gap-3">
+            <span class="text-cyber-teal font-bold">I. Domain Pemikiran:</span> 
+            Filsafat, Spiritualitas, dan Ketuhanan. Menjelajahi konsep dan ide abstrak.
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-cyber-teal font-bold">II. Konteks Ruang & Waktu:</span> 
+            Peradaban dan Budaya. Mempelajari sejarah dan jejak warisan leluhur.
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-cyber-teal font-bold">III. Entitas Sumber:</span> 
+            Tokoh dan Pustaka & Literatur. Mengenal para pemikir dan literatur sakral/klasik.
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-cyber-teal font-bold">IV. Referensi Cepat:</span> 
+            Glosarium. Kunci pembuka gerbang makna untuk istilah-istilah kuno dan esoteris.
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl text-gold-ancient uppercase tracking-widest mb-4 flex items-center gap-3">
+          <span class="w-8 h-[1px] bg-gold-ancient/50"></span>
+          Teknologi
+        </h2>
+        <p class="text-text-secondary leading-relaxed">
+          Selam Ilmu dibangun dengan arsitektur web statis mutakhir tanpa database. Semua naskah disimpan murni sebagai file Markdown (teks biasa), memastikan bahwa catatan peradaban ini tidak akan pernah usang oleh perubahan sistem database, mudah disalin, dan bertahan melintasi waktu layaknya pahatan di atas batu.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</BaseLayout>

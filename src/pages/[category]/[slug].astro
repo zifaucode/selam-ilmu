@@ -119,6 +119,14 @@ if (article.data.related && article.data.related.length > 0) {
               {new Date(article.data.createdAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
             </span>
           )}
+          
+          <!-- Download PDF Button -->
+          <button id="download-pdf-btn" class="ml-auto flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm bg-gold-500/10 text-gold-400 border border-gold-500/30 hover:bg-gold-500/20 hover:border-gold-400 rounded-md transition-all font-medium cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Unduh PDF
+          </button>
         </div>
 
         <hr class="border-midnight-800/60 mt-8" />
@@ -164,3 +172,210 @@ if (article.data.related && article.data.related.length > 0) {
     </div>
   </article>
 </BaseLayout>
+
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script define:vars={{ articleTitle: article.data.title }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('download-pdf-btn');
+    if (!btn) return;
+
+    btn.addEventListener('click', async () => {
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Memproses PDF...';
+      btn.disabled = true;
+
+      try {
+        const contentEl = document.querySelector('.prose-article');
+        if (!contentEl) throw new Error('Konten tidak ditemukan');
+
+        // Helper: load an image and return its base64 data URL
+        const loadImageBase64 = (src) => new Promise((resolve, reject) => {
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = () => {
+            const c = document.createElement('canvas');
+            c.width = img.naturalWidth;
+            c.height = img.naturalHeight;
+            c.getContext('2d').drawImage(img, 0, 0);
+            resolve(c.toDataURL('image/jpeg', 0.95));
+          };
+          img.onerror = () => reject(new Error('Gagal memuat gambar cover'));
+          img.src = src;
+        });
+
+        // =============================================
+        // STEP 1: Load cover image as base64
+        // =============================================
+        const coverBase64 = await loadImageBase64(window.location.origin + '/cover-tulisan.png');
+
+        // =============================================
+        // STEP 2: Temporarily override article styles
+        //         to print-friendly (white bg, dark text)
+        // =============================================
+        const printStyle = document.createElement('style');
+        printStyle.id = 'pdf-print-override';
+        printStyle.textContent = `
+          .prose-article.pdf-mode,
+          .prose-article.pdf-mode * {
+            color: #111111 !important;
+            background-color: transparent !important;
+            border-color: #cccccc !important;
+          }
+          .prose-article.pdf-mode {
+            background-color: #ffffff !important;
+            padding: 20px !important;
+          }
+          .prose-article.pdf-mode a { color: #0056b3 !important; }
+          .prose-article.pdf-mode blockquote {
+            border-left-color: #999999 !important;
+            color: #555555 !important;
+          }
+          .prose-article.pdf-mode code {
+            background-color: #f0f0f0 !important;
+            color: #333333 !important;
+          }
+          .prose-article.pdf-mode pre {
+            background-color: #f5f5f5 !important;
+          }
+        `;
+        document.head.appendChild(printStyle);
+        contentEl.classList.add('pdf-mode');
+
+        // Wait for style repaint
+        await new Promise(r => setTimeout(r, 200));
+
+        // =============================================
+        // STEP 3: Capture the ACTUAL visible article
+        //         element with html2canvas
+        // =============================================
+        const canvas = await html2canvas(contentEl, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          scrollY: -window.scrollY,
+          scrollX: 0,
+          windowWidth: contentEl.scrollWidth + 40,
+        });
+
+        // Remove temporary print styles immediately
+        contentEl.classList.remove('pdf-mode');
+        printStyle.remove();
+
+        // =============================================
+        // STEP 4: Build PDF with jsPDF directly
+        // =============================================
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pageW = 210;
+        const pageH = 297;
+
+        // --- COVER PAGE ---
+        pdf.addImage(coverBase64, 'JPEG', 0, 0, pageW, pageH);
+
+        // Title text centered in the golden box area (box is ~42% from top)
+        pdf.setFont('times', 'bold');
+        pdf.setFontSize(26);
+        pdf.setTextColor(212, 175, 55); // Gold color
+        const titleLines = pdf.splitTextToSize(articleTitle, 120);
+        const lineH = 12;
+        const titleBlockH = titleLines.length * lineH;
+        const titleStartY = (pageH * 0.46) - (titleBlockH / 2) + lineH;
+        pdf.text(titleLines, pageW / 2, titleStartY, {
+          align: 'center',
+          lineHeightFactor: 1.4
+        });
+
+        // --- CONTENT PAGES (smart-sliced from canvas) ---
+        const margin = 15; // mm
+        const footerSpace = 12; // mm reserved at bottom for footer
+        const usableW = pageW - (2 * margin);
+        const usableH = pageH - margin - footerSpace;
+
+        // Pixel-to-mm conversion factor
+        const pxPerMM = canvas.height / ((usableW / canvas.width) * canvas.height);
+        const usableHPX = Math.round(usableH * pxPerMM);
+
+        // Smart page break: scan upward from the cut point to find
+        // a fully white row (gap between lines/paragraphs)
+        function findWhiteRow(canvasEl, targetYPX, maxSearchPX) {
+          const scanCtx = canvasEl.getContext('2d');
+          const w = canvasEl.width;
+          const sampleStep = Math.max(1, Math.floor(w / 60));
+
+          for (let y = targetYPX; y > targetYPX - maxSearchPX && y > 0; y--) {
+            const row = scanCtx.getImageData(0, y, w, 1).data;
+            let allWhite = true;
+            for (let x = 0; x < w * 4; x += sampleStep * 4) {
+              if (row[x] < 245 || row[x + 1] < 245 || row[x + 2] < 245) {
+                allWhite = false;
+                break;
+              }
+            }
+            if (allWhite) return y;
+          }
+          return targetYPX; // Fallback: no white row found
+        }
+
+        let srcYPX = 0;
+        let remainingPX = canvas.height;
+
+        while (remainingPX > 0) {
+          pdf.addPage();
+
+          let sliceEndPX;
+          if (remainingPX <= usableHPX) {
+            // Last page: take whatever remains
+            sliceEndPX = srcYPX + remainingPX;
+          } else {
+            // Find nearest white row (search up to 15% of page height)
+            const rawEnd = srcYPX + usableHPX;
+            const searchRange = Math.round(usableHPX * 0.15);
+            sliceEndPX = findWhiteRow(canvas, rawEnd, searchRange);
+          }
+
+          const slicePX = sliceEndPX - srcYPX;
+          const sliceMM = slicePX / pxPerMM;
+
+          // Create a sub-canvas for this page slice
+          const sliceCanvas = document.createElement('canvas');
+          sliceCanvas.width = canvas.width;
+          sliceCanvas.height = slicePX;
+          const ctx = sliceCanvas.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
+          ctx.drawImage(
+            canvas,
+            0, srcYPX, canvas.width, slicePX,
+            0, 0, canvas.width, slicePX
+          );
+
+          const sliceData = sliceCanvas.toDataURL('image/jpeg', 0.95);
+          pdf.addImage(sliceData, 'JPEG', margin, margin, usableW, sliceMM);
+
+          remainingPX -= slicePX;
+          srcYPX += slicePX;
+        }
+
+        // --- FOOTER on every page ---
+        const totalPages = pdf.internal.getNumberOfPages();
+        for (let i = 2; i <= totalPages; i++) {
+          pdf.setPage(i);
+          pdf.setFontSize(9);
+          pdf.setTextColor(130);
+          pdf.text('diunduh dari : selam-ilmu.com', pageW / 2, pageH - 6, { align: 'center' });
+        }
+
+        // Save the PDF
+        pdf.save(articleTitle.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_').toLowerCase() + '.pdf');
+
+      } catch (e) {
+        console.error('PDF Error:', e);
+        alert('Terjadi kesalahan saat membuat PDF: ' + e.message);
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    });
+  });
+</script>

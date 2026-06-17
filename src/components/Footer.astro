@@ -2,14 +2,13 @@
 const currentYear = new Date().getFullYear();
 
 const categories = [
-  { name: 'Peradaban', href: '/civilizations' },
+  { name: 'Filsafat', href: '/philosophy' },
   { name: 'Spiritualitas', href: '/spirituality' },
   { name: 'Ketuhanan', href: '/theology' },
+  { name: 'Peradaban', href: '/civilizations' },
   { name: 'Budaya', href: '/cultures' },
-  { name: 'Kitab', href: '/scriptures' },
-  { name: 'Filsafat', href: '/philosophy' },
   { name: 'Tokoh', href: '/figures' },
-  { name: 'Buku', href: '/books' },
+  { name: 'Pustaka & Literatur', href: '/literatures' },
   { name: 'Glosarium', href: '/glossary' },
 ];
 ---
@@ -23,9 +22,11 @@ const categories = [
       <!-- Brand -->
       <div class="md:col-span-5 space-y-6">
         <div class="flex items-center gap-4">
-          <div class="w-12 h-12 border border-gold-ancient/50 flex items-center justify-center text-gold-radiant font-display font-bold text-3xl">P</div>
+          <div class="w-12 h-12 border border-gold-ancient/50 flex items-center justify-center relative overflow-hidden rounded-md">
+            <img src="/logo.jpg" alt="Selam Ilmu Logo" class="w-full h-full object-cover" />
+          </div>
           <div>
-            <span class="font-display font-bold text-xl text-text-primary block leading-none">Portal Pengetahuan</span>
+            <span class="font-display font-bold text-xl text-text-primary block leading-none">Selam Ilmu</span>
             <span class="font-sans text-[10px] text-cyber-teal tracking-[0.3em] uppercase mt-1 block">Pustaka Digital</span>
           </div>
         </div>
@@ -70,7 +71,7 @@ const categories = [
     <!-- Bottom -->
     <div class="mt-16 pt-8 border-t border-midnight-border flex flex-col sm:flex-row items-center justify-between gap-4">
       <p class="text-xs font-sans text-text-tertiary">
-        &copy; {currentYear} Portal Pengetahuan Peradaban.
+        &copy; {currentYear} Selam Ilmu.
       </p>
       <div class="flex items-center gap-2">
         <span class="w-1 h-1 bg-gold-ancient rotate-45"></span>

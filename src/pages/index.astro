@@ -16,26 +16,20 @@ const allCollections = await Promise.all([
 ]);
 
 const allArticles = allCollections.flat();
-const latestArticles = allArticles.sort((a, b) => {
-  const dA = a.data.createdAt ? new Date(a.data.createdAt).getTime() : 0;
-  const dB = b.data.createdAt ? new Date(b.data.createdAt).getTime() : 0;
-  return dB - dA;
-}).slice(0, 5);
 
 const categories = [
-  { name: 'Peradaban', slug: 'civilizations', roman: 'I', desc: 'Saksi bisu perjalanan waktu dan monumen pencapaian umat manusia.' },
+  { name: 'Filsafat', slug: 'philosophy', roman: 'I', desc: 'Pergulatan akal budi meretas misteri eksistensi.' },
   { name: 'Spiritualitas', slug: 'spirituality', roman: 'II', desc: 'Pencarian makna di balik tabir realitas material.' },
   { name: 'Ketuhanan', slug: 'theology', roman: 'III', desc: 'Pemahaman tentang Yang Maha Mutlak lintas tradisi.' },
-  { name: 'Budaya & Adat', slug: 'cultures', roman: 'IV', desc: 'Jejak tradisi, seni, dan nilai-nilai warisan leluhur.' },
-  { name: 'Kitab-Kitab', slug: 'scriptures', roman: 'V', desc: 'Lembaran suci dan teks sakral penuntun kehidupan.' },
-  { name: 'Filsafat', slug: 'philosophy', roman: 'VI', desc: 'Pergulatan akal budi meretas misteri eksistensi.' },
-  { name: 'Tokoh & Pemikir', slug: 'figures', roman: 'VII', desc: 'Para pembawa obor pencerahan di tengah kegelapan zaman.' },
-  { name: 'Buku', slug: 'books', roman: 'VIII', desc: 'Kumpulan literatur dan karya tulis monumental yang mengubah sejarah.' },
-  { name: 'Glosarium', slug: 'glossary', roman: 'IX', desc: 'Kunci pembuka gerbang makna istilah kuno dan esoteris.' },
+  { name: 'Peradaban', slug: 'civilizations', roman: 'IV', desc: 'Saksi bisu perjalanan waktu dan pencapaian umat manusia.' },
+  { name: 'Budaya & Adat', slug: 'cultures', roman: 'V', desc: 'Jejak tradisi, seni, dan nilai-nilai warisan leluhur.' },
+  { name: 'Tokoh & Pemikir', slug: 'figures', roman: 'VI', desc: 'Para pembawa obor pencerahan di tengah kegelapan.' },
+  { name: 'Pustaka & Literatur', slug: 'literatures', roman: 'VII', desc: 'Kumpulan kitab, manuskrip, dan buku monumental bersejarah.' },
+  { name: 'Glosarium', slug: 'glossary', roman: 'VIII', desc: 'Kunci pembuka gerbang makna istilah kuno dan esoteris.' },
 ];
 ---
 
-<BaseLayout title="Pustaka Pengetahuan">
+<BaseLayout title="Beranda">
   <!-- Hero Section -->
   <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
     <!-- Abstract Ornaments -->
@@ -50,8 +44,8 @@ const categories = [
           Ensiklopedia Digital
         </p>
         <h1 class="font-display font-black text-5xl sm:text-7xl lg:text-8xl leading-[0.9] text-text-primary mb-8 uppercase tracking-tight">
-          <span class="block">Pustaka</span>
-          <span class="block gradient-gold">Peradaban</span>
+          <span class="block">Selam</span>
+          <span class="block gradient-gold">Ilmu</span>
         </h1>
         <p class="font-serif italic text-text-secondary text-lg sm:text-xl max-w-2xl leading-relaxed mb-12 border-l-2 border-gold-ancient/50 pl-6">
           "Merawat percikan api kebijaksanaan masa lalu untuk menerangi jalan masa depan. Sebuah pelestarian digital untuk warisan tak ternilai umat manusia."
@@ -124,43 +118,7 @@ const categories = [
     </div>
   </section>
 
-  <!-- Latest Articles (Asymmetrical Layout) -->
-  {latestArticles.length > 0 && (
-    <section class="py-32 relative z-10">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center gap-6 mb-16 animate-reveal">
-          <div class="w-16 h-[1px] bg-cyber-teal/50"></div>
-          <h2 class="font-display text-3xl font-bold text-text-primary uppercase tracking-widest">Temuan <span class="text-gold-radiant">Terbaru</span></h2>
-        </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <!-- Featured (Large Card) -->
-          <div class="lg:col-span-7">
-            <Card
-              title={latestArticles[0].data.title}
-              summary={latestArticles[0].data.summary}
-              category={latestArticles[0].data.category}
-              slug={latestArticles[0].data.slug || latestArticles[0].id}
-              tags={latestArticles[0].data.tags}
-            />
-          </div>
-          
-          <!-- Secondary (Stack) -->
-          <div class="lg:col-span-5 flex flex-col gap-8 lg:mt-24">
-            {latestArticles.slice(1, 3).map((article) => (
-              <Card
-                title={article.data.title}
-                summary={article.data.summary}
-                category={article.data.category}
-                slug={article.data.slug || article.id}
-                tags={article.data.tags}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  )}
 </BaseLayout>
 
 <script>

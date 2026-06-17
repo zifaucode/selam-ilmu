@@ -1,0 +1,19 @@
+---
+// src/pages/admin.astro
+// Halaman ini memuat Sveltia CMS
+---
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selam Ilmu CMS</title>
+    <link rel="icon" type="image/jpeg" href="/logo.jpg" />
+    <!-- Explicitly tell CMS where to find the config.yml -->
+    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+  </head>
+  <body>
+    <!-- Sveltia CMS Script -->
+    <script is:inline src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+  </body>
+</html>

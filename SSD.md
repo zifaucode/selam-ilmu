@@ -1,6 +1,6 @@
 # SSD (System Design Document)
 
-# Portal Pengetahuan Peradaban, Spiritualitas, Ketuhanan, Budaya, Kitab, dan Filsafat
+# Selam Ilmu
 
 Version: 1.0
 
@@ -12,11 +12,11 @@ Status: Draft Awal
 
 ## Nama Proyek
 
-Portal Pengetahuan Peradaban
+Selam Ilmu
 
 ## Deskripsi
 
-Portal Pengetahuan Peradaban merupakan website ensiklopedia digital yang berfokus pada penyebaran pengetahuan lintas disiplin yang mencakup:
+Selam Ilmu merupakan website ensiklopedia digital yang berfokus pada penyebaran pengetahuan lintas disiplin yang mencakup:
 
 - Peradaban
 - Spiritualitas
@@ -547,3 +547,26 @@ Tanpa:
 Tujuan:
 
 Membangun ensiklopedia digital modern yang ringan, cepat, mudah dikembangkan, mudah di-backup, dan mampu menampung ribuan artikel pengetahuan lintas disiplin.
+
+---
+
+# 19. Content Management System (CMS)
+
+Website ini menggunakan **Sveltia CMS** (Git-based CMS) sebagai sistem manajemen konten untuk mengelola artikel tanpa perlu mengedit file Markdown secara manual melalui IDE.
+
+## Akses
+URL: `/admin` (misal: `localhost:4321/admin` atau `selamilmu.com/admin`)
+
+## Cara Kerja
+1. CMS diakses melalui antarmuka web.
+2. Pengguna membuat/mengedit artikel melalui form UI (seperti WordPress).
+3. CMS akan otomatis menghasilkan file `.md` yang valid sesuai dengan `articleSchema`.
+4. CMS melakukan `git commit` dan `git push` langsung ke repositori GitHub.
+5. GitHub mendeteksi perubahan dan memicu *build* di Cloudflare Pages.
+
+## Keamanan
+- Tidak ada database lokal atau server rentan.
+- Membutuhkan autentikasi (OAuth GitHub) untuk mengakses dan mengubah konten.
+
+## Konfigurasi
+Semua pengaturan terkait field (Judul, Ringkasan, Kategori, dll) dan pemetaan folder (`src/content/...`) diatur di dalam file `public/admin/config.yml`.

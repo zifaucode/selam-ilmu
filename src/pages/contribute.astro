@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = "Kontribusi";
+const description = "Mari berkolaborasi memperkaya koleksi Selam Ilmu. Ketahui cara menulis dan mengirimkan artikel.";
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="py-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto animate-slide-up">
+    <div class="mb-16 text-center">
+      <h1 class="font-display font-black text-4xl sm:text-6xl text-text-primary mb-6 uppercase tracking-tight">
+        Turut <span class="gradient-gold">Berkontribusi</span>
+      </h1>
+      <p class="font-serif italic text-text-secondary text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto">
+        "Pengetahuan sejati tumbuh ketika ia dibagikan."
+      </p>
+    </div>
+
+    <div class="prose-article space-y-12 bg-midnight-surface/30 p-8 sm:p-12 rounded-xl border border-midnight-border">
+      
+      <section>
+        <h2 class="font-display text-2xl text-gold-ancient uppercase tracking-widest mb-4 flex items-center gap-3">
+          <span class="w-8 h-[1px] bg-gold-ancient/50"></span>
+          Menjadi Penulis
+        </h2>
+        <p class="text-text-secondary leading-relaxed">
+          Selam Ilmu adalah ruang terbuka untuk siapa saja yang ingin melestarikan ilmu pengetahuan. Jika Anda memiliki keahlian atau ketertarikan mendalam pada sejarah peradaban, pemikiran filsafat, naskah kuno, atau wacana spiritualitas, kami sangat mengundang Anda untuk turut merawat pustaka ini.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl text-gold-ancient uppercase tracking-widest mb-4 flex items-center gap-3">
+          <span class="w-8 h-[1px] bg-gold-ancient/50"></span>
+          Cara Menulis Artikel
+        </h2>
+        
+        <div class="space-y-6">
+          <div class="bg-abyss/50 p-6 rounded-lg border border-cyber-teal/20">
+            <h3 class="font-display font-bold text-lg text-cyber-teal mb-2">Jalur 1: Melalui Dashboard Admin (CMS)</h3>
+            <p class="text-text-tertiary text-sm leading-relaxed mb-4">
+              Untuk kontributor internal atau mereka yang telah diberikan akses repositori.
+            </p>
+            <ol class="list-decimal pl-5 text-sm text-text-secondary space-y-2">
+              <li>Akses halaman <a href="/admin" class="text-gold-radiant hover:underline">/admin</a>.</li>
+              <li>Login menggunakan kredensial yang disetujui.</li>
+              <li>Pilih kategori di menu sebelah kiri (misal: Tokoh atau Filsafat).</li>
+              <li>Klik "New" untuk membuat tulisan menggunakan editor yang disediakan.</li>
+              <li>Publikasikan tulisan Anda secara langsung.</li>
+            </ol>
+          </div>
+
+          <div class="bg-abyss/50 p-6 rounded-lg border border-gold-ancient/20">
+            <h3 class="font-display font-bold text-lg text-gold-ancient mb-2">Jalur 2: Kiriman Markdown (Developer)</h3>
+            <p class="text-text-tertiary text-sm leading-relaxed mb-4">
+              Jika Anda terbiasa dengan GitHub, Anda bisa langsung berkontribusi pada struktur kode sumber kami.
+            </p>
+            <ol class="list-decimal pl-5 text-sm text-text-secondary space-y-2">
+              <li>Gunakan halaman <a href="/converter" class="text-cyber-teal hover:underline">Markdown Converter</a> kami untuk mengubah naskah Anda ke format `.md` dengan bersih.</li>
+              <li>Lakukan <em>Fork</em> pada repositori <code class="text-cyber-teal bg-midnight-raised px-1 rounded">zifaucode/selam-ilmu</code> di GitHub.</li>
+              <li>Tambahkan file Markdown Anda ke dalam folder `src/content/...` yang sesuai.</li>
+              <li>Kirimkan <em>Pull Request</em> untuk ditinjau oleh kurator kami.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="font-display text-2xl text-gold-ancient uppercase tracking-widest mb-4 flex items-center gap-3">
+          <span class="w-8 h-[1px] bg-gold-ancient/50"></span>
+          Standar Kurasi
+        </h2>
+        <ul class="list-disc pl-5 text-text-secondary space-y-2">
+          <li><strong>Objektivitas:</strong> Tulisan harus bersifat informatif dan akademis (atau menceritakan sejarah secara netral).</li>
+          <li><strong>Kejelasan:</strong> Gunakan bahasa yang mudah dipahami namun kaya akan nuansa intelektual.</li>
+          <li><strong>Sumber:</strong> Sebisa mungkin sertakan referensi ke naskah asli atau pemikir asalnya.</li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+</BaseLayout>
