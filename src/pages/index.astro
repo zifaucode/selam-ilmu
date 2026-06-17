@@ -1,0 +1,170 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const allCollections = await Promise.all([
+  getCollection('civilizations').catch(() => []),
+  getCollection('spirituality').catch(() => []),
+  getCollection('theology').catch(() => []),
+  getCollection('cultures').catch(() => []),
+  getCollection('scriptures').catch(() => []),
+  getCollection('philosophy').catch(() => []),
+  getCollection('figures').catch(() => []),
+  getCollection('books').catch(() => []),
+  getCollection('glossary').catch(() => []),
+]);
+
+const allArticles = allCollections.flat();
+const latestArticles = allArticles.sort((a, b) => {
+  const dA = a.data.createdAt ? new Date(a.data.createdAt).getTime() : 0;
+  const dB = b.data.createdAt ? new Date(b.data.createdAt).getTime() : 0;
+  return dB - dA;
+}).slice(0, 5);
+
+const categories = [
+  { name: 'Peradaban', slug: 'civilizations', roman: 'I', desc: 'Saksi bisu perjalanan waktu dan monumen pencapaian umat manusia.' },
+  { name: 'Spiritualitas', slug: 'spirituality', roman: 'II', desc: 'Pencarian makna di balik tabir realitas material.' },
+  { name: 'Ketuhanan', slug: 'theology', roman: 'III', desc: 'Pemahaman tentang Yang Maha Mutlak lintas tradisi.' },
+  { name: 'Budaya & Adat', slug: 'cultures', roman: 'IV', desc: 'Jejak tradisi, seni, dan nilai-nilai warisan leluhur.' },
+  { name: 'Kitab-Kitab', slug: 'scriptures', roman: 'V', desc: 'Lembaran suci dan teks sakral penuntun kehidupan.' },
+  { name: 'Filsafat', slug: 'philosophy', roman: 'VI', desc: 'Pergulatan akal budi meretas misteri eksistensi.' },
+  { name: 'Tokoh & Pemikir', slug: 'figures', roman: 'VII', desc: 'Para pembawa obor pencerahan di tengah kegelapan zaman.' },
+  { name: 'Buku', slug: 'books', roman: 'VIII', desc: 'Kumpulan literatur dan karya tulis monumental yang mengubah sejarah.' },
+  { name: 'Glosarium', slug: 'glossary', roman: 'IX', desc: 'Kunci pembuka gerbang makna istilah kuno dan esoteris.' },
+];
+---
+
+<BaseLayout title="Pustaka Pengetahuan">
+  <!-- Hero Section -->
+  <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <!-- Abstract Ornaments -->
+    <div class="absolute top-1/4 -left-20 w-64 h-64 border border-gold-ancient/20 rotate-45 animate-glow-pulse"></div>
+    <div class="absolute bottom-1/4 -right-20 w-96 h-96 border border-cyber-teal/10 rounded-full"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold-ancient/5 blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-6xl mx-auto px-4 w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-8 animate-slide-up">
+        <p class="font-sans text-cyber-teal uppercase tracking-[0.3em] text-xs font-bold mb-6 flex items-center gap-4">
+          <span class="w-12 h-[1px] bg-cyber-teal/50"></span>
+          Ensiklopedia Digital
+        </p>
+        <h1 class="font-display font-black text-5xl sm:text-7xl lg:text-8xl leading-[0.9] text-text-primary mb-8 uppercase tracking-tight">
+          <span class="block">Pustaka</span>
+          <span class="block gradient-gold">Peradaban</span>
+        </h1>
+        <p class="font-serif italic text-text-secondary text-lg sm:text-xl max-w-2xl leading-relaxed mb-12 border-l-2 border-gold-ancient/50 pl-6">
+          "Merawat percikan api kebijaksanaan masa lalu untuk menerangi jalan masa depan. Sebuah pelestarian digital untuk warisan tak ternilai umat manusia."
+        </p>
+
+        <div class="flex flex-wrap gap-6 items-center">
+          <a href="#koleksi" class="group relative px-8 py-4 font-sans font-bold uppercase tracking-widest text-xs bg-gold-ancient text-abyss hover:bg-gold-bright transition-colors overflow-hidden">
+            <span class="relative z-10">Jelajahi Koleksi</span>
+            <div class="absolute inset-0 bg-white/20 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
+          </a>
+          <button id="cta-search-hero" class="group flex items-center gap-3 px-6 py-4 border border-midnight-border hover:border-cyber-teal/50 transition-colors cursor-pointer">
+            <svg class="w-5 h-5 text-cyber-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <span class="font-sans text-xs uppercase tracking-widest text-text-secondary group-hover:text-text-primary transition-colors">Cari Naskah</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hidden lg:flex lg:col-span-4 justify-end">
+        <div class="relative w-64 h-96 border border-gold-ancient/30 p-4 transform rotate-3 hover:rotate-0 transition-transform duration-700 ease-out">
+          <div class="w-full h-full border border-cyber-teal/20 p-2 flex flex-col justify-between relative overflow-hidden bg-midnight-raised/50 backdrop-blur-md">
+            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20"></div>
+            <div class="relative z-10 text-right">
+              <span class="font-display text-4xl text-gold-ancient opacity-50 block">I</span>
+              <span class="font-sans text-[8px] uppercase tracking-[0.2em] text-cyber-teal">Archivum</span>
+            </div>
+            <div class="relative z-10">
+              <div class="text-3xl font-display font-bold text-text-primary">{allArticles.length}</div>
+              <div class="text-xs font-serif italic text-text-secondary">Naskah tersimpan</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Grid -->
+  <section id="koleksi" class="py-24 relative z-10 border-t border-midnight-border bg-midnight-surface/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-between items-end gap-8 mb-16 animate-reveal">
+        <div>
+          <h2 class="font-display text-4xl sm:text-5xl font-bold text-text-primary mb-4 uppercase">Koleksi <span class="text-gold-ancient">Utama</span></h2>
+          <p class="font-serif italic text-text-secondary max-w-lg">Delapan pilar yang menopang kubah pengetahuan ini.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+        {categories.map((cat, i) => (
+          <a
+            href={`/${cat.slug}`}
+            class="group relative"
+            style={`animation: slide-up 0.8s ease-out ${i * 0.1}s both;`}
+          >
+            <div class="absolute -inset-4 bg-midnight-raised/0 group-hover:bg-midnight-raised/50 border border-transparent group-hover:border-midnight-border transition-all duration-500 -z-10"></div>
+            <div class="flex items-start gap-4">
+              <span class="font-display text-4xl text-midnight-border group-hover:text-gold-ancient transition-colors duration-500 w-12">{cat.roman}</span>
+              <div>
+                <h3 class="font-display font-bold text-lg text-text-primary group-hover:text-cyber-teal transition-colors mb-2 uppercase tracking-wide">
+                  {cat.name}
+                </h3>
+                <p class="font-serif text-sm text-text-tertiary group-hover:text-text-secondary transition-colors italic leading-relaxed">
+                  {cat.desc}
+                </p>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Articles (Asymmetrical Layout) -->
+  {latestArticles.length > 0 && (
+    <section class="py-32 relative z-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center gap-6 mb-16 animate-reveal">
+          <div class="w-16 h-[1px] bg-cyber-teal/50"></div>
+          <h2 class="font-display text-3xl font-bold text-text-primary uppercase tracking-widest">Temuan <span class="text-gold-radiant">Terbaru</span></h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Featured (Large Card) -->
+          <div class="lg:col-span-7">
+            <Card
+              title={latestArticles[0].data.title}
+              summary={latestArticles[0].data.summary}
+              category={latestArticles[0].data.category}
+              slug={latestArticles[0].data.slug || latestArticles[0].id}
+              tags={latestArticles[0].data.tags}
+            />
+          </div>
+          
+          <!-- Secondary (Stack) -->
+          <div class="lg:col-span-5 flex flex-col gap-8 lg:mt-24">
+            {latestArticles.slice(1, 3).map((article) => (
+              <Card
+                title={article.data.title}
+                summary={article.data.summary}
+                category={article.data.category}
+                slug={article.data.slug || article.id}
+                tags={article.data.tags}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<script>
+  const ctaSearch = document.getElementById('cta-search-hero');
+  const searchToggle = document.getElementById('search-toggle');
+  ctaSearch?.addEventListener('click', () => { searchToggle?.click(); });
+</script>

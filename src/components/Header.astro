@@ -1,0 +1,181 @@
+---
+const categories = [
+  { name: 'Peradaban', href: '/civilizations', letter: 'I' },
+  { name: 'Spiritualitas', href: '/spirituality', letter: 'II' },
+  { name: 'Ketuhanan', href: '/theology', letter: 'III' },
+  { name: 'Budaya', href: '/cultures', letter: 'IV' },
+  { name: 'Kitab', href: '/scriptures', letter: 'V' },
+  { name: 'Filsafat', href: '/philosophy', letter: 'VI' },
+  { name: 'Tokoh', href: '/figures', letter: 'VII' },
+  { name: 'Buku', href: '/books', letter: 'VIII' },
+  { name: 'Glosarium', href: '/glossary', letter: 'IX' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-abyss/80 backdrop-blur-xl border-b border-midnight-border" id="main-header">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      
+      <!-- Brand -->
+      <a href="/" class="flex items-center gap-4 group" id="logo-link">
+        <div class="w-10 h-10 border border-gold-ancient/50 flex items-center justify-center relative overflow-hidden">
+          <div class="absolute inset-0 bg-gold-bright/10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+          <span class="font-display font-bold text-2xl text-gold-radiant z-10">P</span>
+        </div>
+        <div class="hidden sm:block">
+          <span class="font-display font-bold text-lg text-text-primary tracking-widest block uppercase leading-none">Portal Pengetahuan</span>
+          <span class="font-sans text-[10px] text-cyber-teal tracking-[0.3em] uppercase mt-1 block">Pustaka Digital</span>
+        </div>
+      </a>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-6">
+        <button
+          id="search-toggle"
+          class="group flex items-center gap-3 bg-midnight-raised/50 border border-midnight-border px-4 py-2 hover:border-cyber-teal/50 transition-colors cursor-pointer relative overflow-hidden"
+          aria-label="Cari artikel"
+        >
+          <div class="absolute inset-0 bg-cyber-teal/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <svg class="w-4 h-4 text-gold-ancient group-hover:text-cyber-teal transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <span class="hidden sm:inline font-sans text-xs uppercase tracking-widest text-text-secondary group-hover:text-text-primary transition-colors">Cari</span>
+          <kbd class="hidden sm:inline-flex text-[10px] text-cyber-teal font-sans">⌘K</kbd>
+        </button>
+
+        <button
+          id="mobile-menu-toggle"
+          class="lg:hidden text-gold-ancient hover:text-gold-radiant transition-colors cursor-pointer"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden lg:flex items-center gap-8 pb-4" id="main-nav">
+      {categories.map((cat) => (
+        <a
+          href={cat.href}
+          class:list={[
+            'group flex flex-col relative',
+            currentPath.startsWith(cat.href) ? 'text-gold-radiant' : 'text-text-secondary hover:text-text-primary'
+          ]}
+        >
+          <span class="font-display text-[10px] text-cyber-teal/50 mb-0.5 group-hover:text-cyber-teal transition-colors">{cat.letter}</span>
+          <span class="font-sans text-xs uppercase tracking-widest transition-colors">{cat.name}</span>
+          {currentPath.startsWith(cat.href) && (
+            <span class="absolute -bottom-4 left-0 w-full h-[1px] bg-gold-radiant shadow-[0_0_8px_rgba(245,215,110,0.8)]"></span>
+          )}
+        </a>
+      ))}
+    </nav>
+  </div>
+
+  <!-- Mobile Nav -->
+  <nav id="mobile-nav" class="hidden lg:hidden border-t border-midnight-border bg-midnight-surface/95 backdrop-blur-xl absolute w-full">
+    <div class="px-4 py-4 grid grid-cols-2 gap-y-6 gap-x-4">
+      {categories.map((cat) => (
+        <a
+          href={cat.href}
+          class:list={[
+            'flex flex-col',
+            currentPath.startsWith(cat.href) ? 'text-gold-radiant' : 'text-text-secondary hover:text-text-primary'
+          ]}
+        >
+          <span class="font-display text-[10px] text-cyber-teal/50 mb-1">{cat.letter}</span>
+          <span class="font-sans text-xs uppercase tracking-widest">{cat.name}</span>
+        </a>
+      ))}
+    </div>
+  </nav>
+</header>
+
+<!-- Search Modal -->
+<div id="search-modal" class="hidden fixed inset-0 z-[60] items-start justify-center pt-[15vh] px-4 bg-abyss/90 backdrop-blur-sm">
+  <div class="w-full max-w-2xl bg-midnight-surface border border-gold-ancient/30 shadow-[0_0_50px_rgba(0,0,0,0.8)] relative animate-slide-up">
+    <!-- Corner Ornaments -->
+    <div class="absolute top-0 left-0 w-4 h-4 border-t border-l border-gold-radiant"></div>
+    <div class="absolute top-0 right-0 w-4 h-4 border-t border-r border-gold-radiant"></div>
+    <div class="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-gold-radiant"></div>
+    <div class="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-gold-radiant"></div>
+
+    <div class="flex items-center gap-4 px-6 py-5 border-b border-midnight-border">
+      <svg class="w-5 h-5 text-cyber-teal animate-glow-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input
+        id="search-input"
+        type="text"
+        placeholder="Telusuri pustaka..."
+        class="flex-1 bg-transparent text-text-primary font-sans text-lg outline-none placeholder-text-tertiary"
+        autocomplete="off"
+      />
+      <button id="search-close" class="text-text-tertiary hover:text-gold-radiant transition-colors cursor-pointer">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+    </div>
+
+    <div id="search-results" class="max-h-[60vh] overflow-y-auto p-4">
+      <div class="px-4 py-12 text-center text-text-tertiary font-serif italic text-lg">
+        "Carilah, maka engkau akan menemukan..."
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Mobile Menu
+  const mobileToggle = document.getElementById('mobile-menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  mobileToggle?.addEventListener('click', () => { mobileNav?.classList.toggle('hidden'); });
+</script>
+
+<script>
+  // Fuse.js Search Setup
+  import Fuse from 'fuse.js';
+
+  let fuse: Fuse<any> | null = null;
+  let searchData: any[] = [];
+
+  async function initSearch() {
+    if (fuse) return;
+    try {
+      const res = await fetch('/api/search.json');
+      searchData = await res.json();
+      fuse = new Fuse(searchData, { keys: ['title', 'summary', 'tags', 'category'], threshold: 0.3 });
+    } catch(e) { console.error(e); }
+  }
+
+  const input = document.getElementById('search-input') as HTMLInputElement;
+  const resultsDiv = document.getElementById('search-results');
+
+  input?.addEventListener('focus', initSearch);
+  input?.addEventListener('input', () => {
+    const q = input.value.trim();
+    if (!q || !fuse) {
+      if (resultsDiv) resultsDiv.innerHTML = `<div class="px-4 py-12 text-center text-text-tertiary font-serif italic text-lg">"Carilah, maka engkau akan menemukan..."</div>`;
+      return;
+    }
+    const res = fuse.search(q, { limit: 8 });
+    if (res.length === 0) {
+      if (resultsDiv) resultsDiv.innerHTML = `<div class="px-4 py-12 text-center text-text-tertiary font-sans text-sm">Tidak ditemukan jejak untuk "<span class="text-gold-radiant">${q}</span>"</div>`;
+      return;
+    }
+    if (resultsDiv) {
+      resultsDiv.innerHTML = res.map(r => `
+        <a href="/${r.item.category}/${r.item.slug}" class="flex flex-col gap-2 p-4 border border-transparent hover:border-cyber-teal/30 hover:bg-midnight-raised transition-all group mb-2">
+          <div class="flex items-center gap-3">
+            <span class="text-[10px] font-display text-cyber-teal tracking-widest uppercase">${r.item.category}</span>
+            <span class="text-base font-display font-bold text-text-primary group-hover:text-gold-radiant transition-colors">${r.item.title}</span>
+          </div>
+          <p class="text-sm font-serif text-text-secondary line-clamp-1 italic">${r.item.summary}</p>
+        </a>
+      `).join('');
+    }
+  });
+</script>

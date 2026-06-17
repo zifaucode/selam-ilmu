@@ -1,0 +1,166 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+const collectionNames = [
+  'civilizations', 'spirituality', 'theology', 'cultures',
+  'scriptures', 'philosophy', 'figures', 'books', 'glossary',
+] as const;
+
+const categoryLabels: Record<string, string> = {
+  civilizations: 'Peradaban',
+  spirituality: 'Spiritualitas',
+  theology: 'Ketuhanan',
+  cultures: 'Budaya & Adat',
+  scriptures: 'Kitab-Kitab',
+  philosophy: 'Filsafat',
+  figures: 'Tokoh & Pemikir',
+  books: 'Buku',
+  glossary: 'Glosarium',
+};
+
+export async function getStaticPaths() {
+  const paths: any[] = [];
+
+  for (const name of [
+    'civilizations', 'spirituality', 'theology', 'cultures',
+    'scriptures', 'philosophy', 'figures', 'books', 'glossary',
+  ] as const) {
+    try {
+      const articles = await getCollection(name);
+      for (const article of articles) {
+        paths.push({
+          params: {
+            category: name,
+            slug: article.data.slug || article.id,
+          },
+          props: { article, collectionName: name },
+        });
+      }
+    } catch {
+      // Collection might be empty or not exist yet
+    }
+  }
+
+  return paths;
+}
+
+const { article, collectionName } = Astro.props;
+const { Content } = await render(article);
+
+const categoryLabel = categoryLabels[collectionName] || collectionName;
+
+// Get related articles
+let relatedArticles: any[] = [];
+if (article.data.related && article.data.related.length > 0) {
+  try {
+    const allInCollection = await getCollection(collectionName as any);
+    relatedArticles = allInCollection.filter((a: any) =>
+      article.data.related.includes(a.data.slug || a.id)
+    );
+  } catch {
+    // ignore
+  }
+}
+---
+
+<BaseLayout title={article.data.title} description={article.data.summary}>
+  <article class="py-12 sm:py-16">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6">
+      <!-- Breadcrumb -->
+      <div class="flex items-center gap-2 text-sm text-midnight-500 mb-8 animate-fade-in">
+        <a href="/" class="hover:text-midnight-300 transition-colors">Beranda</a>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+        <a href={`/${collectionName}`} class="hover:text-midnight-300 transition-colors">{categoryLabel}</a>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+        <span class="text-midnight-300 truncate">{article.data.title}</span>
+      </div>
+
+      <!-- Article Header -->
+      <header class="mb-10 animate-fade-up">
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <a
+            href={`/${collectionName}`}
+            class="px-3 py-1 rounded-full text-xs font-medium bg-gold-500/10 text-gold-400 border border-gold-500/20 hover:bg-gold-500/20 transition-colors"
+          >
+            {categoryLabel}
+          </a>
+          {article.data.tags.map((tag: string) => (
+            <span class="px-2.5 py-0.5 rounded-full text-xs bg-midnight-800 text-midnight-400 border border-midnight-700/50">
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-bold text-midnight-50 leading-tight mb-4">
+          {article.data.title}
+        </h1>
+
+        <p class="text-lg text-midnight-300 leading-relaxed mb-6">
+          {article.data.summary}
+        </p>
+
+        <div class="flex items-center gap-4 text-sm text-midnight-500">
+          <span class="flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            {article.data.author}
+          </span>
+          {article.data.createdAt && (
+            <span class="flex items-center gap-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              {new Date(article.data.createdAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </span>
+          )}
+        </div>
+
+        <hr class="border-midnight-800/60 mt-8" />
+      </header>
+
+      <!-- Article Content -->
+      <div class="prose-article animate-fade-up" style="animation-delay: 0.15s;">
+        <Content />
+      </div>
+
+      <!-- Related Articles -->
+      {relatedArticles.length > 0 && (
+        <aside class="mt-16 pt-10 border-t border-midnight-800/60">
+          <h2 class="text-xl font-bold text-midnight-50 mb-6">Artikel Terkait</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {relatedArticles.map((rel: any) => (
+              <a
+                href={`/${collectionName}/${rel.data.slug || rel.id}`}
+                class="glass rounded-xl p-4 card-hover group"
+              >
+                <h3 class="text-sm font-semibold text-midnight-100 group-hover:text-gold-300 transition-colors mb-1">
+                  {rel.data.title}
+                </h3>
+                <p class="text-xs text-midnight-400 line-clamp-2">{rel.data.summary}</p>
+              </a>
+            ))}
+          </div>
+        </aside>
+      )}
+
+      <!-- Back link -->
+      <div class="mt-12">
+        <a
+          href={`/${collectionName}`}
+          class="inline-flex items-center gap-2 text-sm text-midnight-400 hover:text-gold-400 transition-colors"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+          </svg>
+          Kembali ke {categoryLabel}
+        </a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

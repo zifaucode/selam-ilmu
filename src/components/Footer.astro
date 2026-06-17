@@ -1,0 +1,82 @@
+---
+const currentYear = new Date().getFullYear();
+
+const categories = [
+  { name: 'Peradaban', href: '/civilizations' },
+  { name: 'Spiritualitas', href: '/spirituality' },
+  { name: 'Ketuhanan', href: '/theology' },
+  { name: 'Budaya', href: '/cultures' },
+  { name: 'Kitab', href: '/scriptures' },
+  { name: 'Filsafat', href: '/philosophy' },
+  { name: 'Tokoh', href: '/figures' },
+  { name: 'Buku', href: '/books' },
+  { name: 'Glosarium', href: '/glossary' },
+];
+---
+
+<footer class="mt-20 border-t border-midnight-border relative overflow-hidden">
+  <!-- Subtle glowing background -->
+  <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-gold-ancient/5 blur-[120px] pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+      <!-- Brand -->
+      <div class="md:col-span-5 space-y-6">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 border border-gold-ancient/50 flex items-center justify-center text-gold-radiant font-display font-bold text-3xl">P</div>
+          <div>
+            <span class="font-display font-bold text-xl text-text-primary block leading-none">Portal Pengetahuan</span>
+            <span class="font-sans text-[10px] text-cyber-teal tracking-[0.3em] uppercase mt-1 block">Pustaka Digital</span>
+          </div>
+        </div>
+        <p class="text-sm font-serif text-text-secondary leading-relaxed max-w-sm italic">
+          "Menyimpan kebijaksanaan peradaban, dari lembaran kuno hingga byte digital."
+        </p>
+      </div>
+
+      <!-- Categories -->
+      <div class="md:col-span-4">
+        <h3 class="font-display text-sm text-gold-ancient tracking-[0.2em] uppercase mb-6 flex items-center gap-2">
+          <span class="w-4 h-[1px] bg-gold-ancient/50"></span> Kategori
+        </h3>
+        <ul class="grid grid-cols-2 gap-y-4 gap-x-2">
+          {categories.map((cat) => (
+            <li>
+              <a href={cat.href} class="group flex items-center gap-2 text-sm font-sans text-text-secondary hover:text-cyber-teal transition-colors">
+                <span class="w-1 h-1 bg-midnight-border group-hover:bg-cyber-teal transition-colors rotate-45"></span>
+                {cat.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Info -->
+      <div class="md:col-span-3">
+        <h3 class="font-display text-sm text-gold-ancient tracking-[0.2em] uppercase mb-6 flex items-center gap-2">
+          <span class="w-4 h-[1px] bg-gold-ancient/50"></span> Informasi
+        </h3>
+        <ul class="space-y-4">
+          <li>
+            <a href="/about" class="text-sm font-sans text-text-secondary hover:text-cyber-teal transition-colors border-b border-transparent hover:border-cyber-teal/30 pb-0.5">Tentang Portal</a>
+          </li>
+          <li>
+            <a href="/contribute" class="text-sm font-sans text-text-secondary hover:text-cyber-teal transition-colors border-b border-transparent hover:border-cyber-teal/30 pb-0.5">Kontribusi</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="mt-16 pt-8 border-t border-midnight-border flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs font-sans text-text-tertiary">
+        &copy; {currentYear} Portal Pengetahuan Peradaban.
+      </p>
+      <div class="flex items-center gap-2">
+        <span class="w-1 h-1 bg-gold-ancient rotate-45"></span>
+        <span class="w-1 h-1 bg-cyber-teal rotate-45"></span>
+        <span class="w-1 h-1 bg-gold-ancient rotate-45"></span>
+      </div>
+    </div>
+  </div>
+</footer>

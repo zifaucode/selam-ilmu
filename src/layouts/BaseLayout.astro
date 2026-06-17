@@ -1,0 +1,100 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  canonical?: string;
+}
+
+const {
+  title,
+  description = 'Portal Pengetahuan Peradaban — Ensiklopedia digital tentang peradaban, spiritualitas, ketuhanan, budaya, kitab, filsafat, dan tokoh pemikir dunia.',
+  ogImage = '/og-default.png',
+  canonical,
+} = Astro.props;
+
+const siteTitle = `${title} | Portal Pengetahuan Peradaban`;
+const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).toString();
+
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{siteTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="id_ID" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={siteTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="bg-abyss text-text-primary min-h-screen flex flex-col relative">
+    <div class="bg-noise"></div>
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Search Modal Script -->
+    <script>
+      // Dark mode is always on (dark theme by default)
+      document.documentElement.classList.add('dark');
+
+      // Search modal toggle
+      const searchToggle = document.getElementById('search-toggle');
+      const searchModal = document.getElementById('search-modal');
+      const searchClose = document.getElementById('search-close');
+      const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+
+      function openSearch() {
+        searchModal?.classList.remove('hidden');
+        searchModal?.classList.add('flex');
+        searchInput?.focus();
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeSearch() {
+        searchModal?.classList.add('hidden');
+        searchModal?.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+
+      searchToggle?.addEventListener('click', openSearch);
+      searchClose?.addEventListener('click', closeSearch);
+      searchModal?.addEventListener('click', (e) => {
+        if (e.target === searchModal) closeSearch();
+      });
+
+      // Keyboard shortcut: Ctrl+K or /
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey && e.key === 'k') || (e.key === '/' && !['INPUT', 'TEXTAREA'].includes((e.target as Element)?.tagName))) {
+          e.preventDefault();
+          openSearch();
+        }
+        if (e.key === 'Escape') closeSearch();
+      });
+    </script>
+  </body>
+</html>

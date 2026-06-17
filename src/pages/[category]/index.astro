@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Card from '../../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const categoryMeta: Record<string, { title: string; description: string; icon: string }> = {
+  civilizations: { title: 'Peradaban', description: 'Menjelajahi peradaban-peradaban besar sepanjang sejarah umat manusia.', icon: '🏛️' },
+  spirituality: { title: 'Spiritualitas', description: 'Tradisi spiritual dan praktik kebatinan dari berbagai penjuru dunia.', icon: '🕯️' },
+  theology: { title: 'Ketuhanan', description: 'Konsep-konsep ketuhanan dan teologi dari berbagai tradisi keagamaan.', icon: '✨' },
+  cultures: { title: 'Budaya & Adat', description: 'Kekayaan budaya dan tradisi adat istiadat Nusantara dan dunia.', icon: '🎭' },
+  scriptures: { title: 'Kitab-Kitab', description: 'Kitab-kitab suci dan teks-teks sakral dari berbagai tradisi keagamaan.', icon: '📜' },
+  philosophy: { title: 'Filsafat', description: 'Aliran-aliran filsafat dan pemikiran filosofis sepanjang masa.', icon: '💭' },
+  figures: { title: 'Tokoh & Pemikir', description: 'Tokoh-tokoh dan pemikir yang membentuk peradaban dan pengetahuan manusia.', icon: '👤' },
+  glossary: { title: 'Glosarium', description: 'Kumpulan istilah dan konsep penting dalam ilmu pengetahuan.', icon: '📖' },
+};
+
+export function getStaticPaths() {
+  const meta: Record<string, { title: string; description: string; icon: string }> = {
+    civilizations: { title: 'Peradaban', description: 'Menjelajahi peradaban-peradaban besar sepanjang sejarah umat manusia.', icon: '🏛️' },
+    spirituality: { title: 'Spiritualitas', description: 'Tradisi spiritual dan praktik kebatinan dari berbagai penjuru dunia.', icon: '🕯️' },
+    theology: { title: 'Ketuhanan', description: 'Konsep-konsep ketuhanan dan teologi dari berbagai tradisi keagamaan.', icon: '✨' },
+    cultures: { title: 'Budaya & Adat', description: 'Kekayaan budaya dan tradisi adat istiadat Nusantara dan dunia.', icon: '🎭' },
+    scriptures: { title: 'Kitab-Kitab', description: 'Kitab-kitab suci dan teks-teks sakral dari berbagai tradisi keagamaan.', icon: '📜' },
+    philosophy: { title: 'Filsafat', description: 'Aliran-aliran filsafat dan pemikiran filosofis sepanjang masa.', icon: '💭' },
+    figures: { title: 'Tokoh & Pemikir', description: 'Tokoh-tokoh dan pemikir yang membentuk peradaban dan pengetahuan manusia.', icon: '👤' },
+    books: { title: 'Buku', description: 'Kumpulan literatur dan karya tulis monumental yang mengubah sejarah.', icon: '📚' },
+    glossary: { title: 'Glosarium', description: 'Kumpulan istilah dan konsep penting dalam ilmu pengetahuan.', icon: '📖' },
+  };
+
+  return Object.keys(meta).map((category) => ({
+    params: { category },
+    props: { meta: meta[category] },
+  }));
+}
+
+const { category } = Astro.params;
+const { meta } = Astro.props;
+
+let articles: any[] = [];
+try {
+  articles = await getCollection(category as any);
+} catch {
+  articles = [];
+}
+
+articles.sort((a, b) => {
+  const dateA = a.data.createdAt ? new Date(a.data.createdAt).getTime() : 0;
+  const dateB = b.data.createdAt ? new Date(b.data.createdAt).getTime() : 0;
+  return dateB - dateA;
+});
+---
+
+<BaseLayout title={meta.title} description={meta.description}>
+  <section class="py-16 sm:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="mb-12 animate-fade-up">
+        <div class="flex items-center gap-2 text-sm text-midnight-500 mb-4">
+          <a href="/" class="hover:text-midnight-300 transition-colors">Beranda</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+          <span class="text-midnight-300">{meta.title}</span>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <span class="text-4xl">{meta.icon}</span>
+          <div>
+            <h1 class="text-3xl sm:text-4xl font-bold text-midnight-50">{meta.title}</h1>
+            <p class="text-midnight-400 mt-1">{meta.description}</p>
+          </div>
+        </div>
+
+        {articles.length > 0 && (
+          <div class="mt-4 text-sm text-midnight-500">
+            {articles.length} artikel ditemukan
+          </div>
+        )}
+      </div>
+
+      <!-- Articles Grid -->
+      {articles.length > 0 ? (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {articles.map((article, i) => (
+            <div style={`animation: fade-up 0.5s ease-out ${i * 0.08}s both;`}>
+              <Card
+                title={article.data.title}
+                summary={article.data.summary}
+                category={article.data.category}
+                slug={article.data.slug || article.id}
+                tags={article.data.tags}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="glass rounded-2xl p-12 text-center">
+          <span class="text-5xl mb-4 block">{meta.icon}</span>
+          <h3 class="text-lg font-semibold text-midnight-200 mb-2">Belum ada artikel</h3>
+          <p class="text-sm text-midnight-400">Konten untuk kategori {meta.title} sedang dalam proses penulisan.</p>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>

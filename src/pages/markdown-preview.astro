@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MarkdownPreviewer from '../components/MarkdownPreviewer.astro';
+
+const title = 'Live Markdown Preview';
+const description = 'Pratinjau kode Markdown secara langsung. Tulis Markdown dan lihat hasil visualnya seketika tanpa koneksi ke server.';
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-8 flex justify-center gap-6">
+        <a href="/" class="text-text-tertiary hover:text-gold-bright transition-colors flex items-center gap-2 text-sm font-medium">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          Beranda
+        </a>
+        <span class="text-midnight-border">|</span>
+        <a href="/converter" class="text-text-tertiary hover:text-cyber-cyan transition-colors flex items-center gap-2 text-sm font-medium">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+          </svg>
+          Buka Converter
+        </a>
+      </div>
+      
+      <MarkdownPreviewer />
+      
+      <div class="mt-16 max-w-3xl mx-auto bg-abyss/40 border border-midnight-border rounded-xl p-6 text-text-tertiary text-sm leading-relaxed text-center">
+        <p>Fitur ini menggunakan pustaka <strong>marked.js</strong> untuk merender HTML yang dioptimalkan sesuai dengan *Design Tokens* bawaan tema Anda.</p>
+        <p class="mt-2">Pengguliran tersinkronisasi (Synchronized Scrolling) diaktifkan secara otomatis untuk mempermudah navigasi pratinjau dokumen panjang.</p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

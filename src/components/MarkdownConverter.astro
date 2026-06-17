@@ -1,0 +1,359 @@
+---
+// src/components/MarkdownConverter.astro
+---
+<div class="converter-container w-full max-w-7xl mx-auto p-4 sm:p-6">
+  <div class="mb-8 text-center animate-fade-in">
+    <h1 class="text-3xl md:text-4xl font-display font-bold text-gold-radiant mb-3">Markdown Converter</h1>
+    <p class="text-text-secondary max-w-2xl mx-auto">Ubah Teks Kaya (Rich Text) atau Dokumen (TXT, DOCX, PDF) menjadi format Markdown.</p>
+  </div>
+
+  <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 min-h-[600px] animate-slide-up">
+    <!-- Left Panel: Input -->
+    <div class="bg-midnight-raised border border-midnight-border rounded-xl overflow-hidden flex flex-col shadow-2xl min-h-[500px]">
+      <div class="bg-midnight-base border-b border-midnight-border flex relative z-10">
+        <button id="tab-write" class="flex-1 py-4 px-4 text-gold-bright font-medium border-b-2 border-gold-bright transition-all bg-midnight-surface/50">Tulis Langsung</button>
+        <button id="tab-upload" class="flex-1 py-4 px-4 text-text-tertiary hover:text-text-secondary border-b-2 border-transparent transition-all">Unggah File</button>
+      </div>
+      
+      <!-- Write View -->
+      <div id="view-write" class="flex-1 flex flex-col bg-white text-black relative">
+         <div id="editor" class="flex-1 min-h-[400px]"></div>
+      </div>
+
+      <!-- Upload View -->
+      <div id="view-upload" class="hidden flex-1 flex-col items-center justify-center p-8 bg-midnight-surface relative">
+        <!-- Decoration -->
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.05)_0%,transparent_70%)] pointer-events-none"></div>
+        
+        <div id="drop-zone" class="relative z-10 w-full max-w-md border-2 border-dashed border-midnight-border rounded-xl p-10 text-center hover:border-gold-ancient transition-colors duration-300 bg-abyss/40 backdrop-blur-sm">
+            <svg class="mx-auto h-16 w-16 text-text-tertiary mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            <p class="text-text-primary font-medium text-lg mb-2">Pilih File atau Tarik ke Sini</p>
+            <p class="text-text-tertiary text-sm mb-8">Mendukung .txt, .docx, .pdf, .html</p>
+            <input type="file" id="file-upload" class="hidden" accept=".txt,.docx,.pdf,.html" />
+            <button id="btn-browse" class="px-6 py-2.5 bg-midnight-raised text-gold-bright border border-gold-ancient/50 rounded-lg hover:bg-gold-ancient/20 transition-all duration-300 cursor-pointer shadow-[0_0_15px_rgba(212,175,55,0.1)]">Telusuri File</button>
+        </div>
+        <div id="upload-status" class="mt-6 text-sm text-cyber-cyan hidden font-medium flex items-center gap-2">
+           <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+           <span>Memproses file...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel: Output -->
+    <div class="bg-midnight-raised border border-midnight-border rounded-xl flex flex-col shadow-2xl min-h-[500px]">
+        <div class="bg-midnight-base border-b border-midnight-border py-4 px-5 flex justify-between items-center relative z-10">
+            <h2 class="text-text-primary font-medium flex items-center gap-2">
+                <svg class="w-5 h-5 text-gold-bright" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                Hasil Markdown
+            </h2>
+            <div class="flex gap-3">
+                <button id="btn-copy" class="text-xs px-3 py-1.5 bg-midnight-surface text-text-primary border border-midnight-border hover:border-gold-ancient/50 hover:text-gold-bright rounded transition-all flex items-center gap-1.5 cursor-pointer">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                    Salin
+                </button>
+                <button id="btn-download" class="text-xs px-3 py-1.5 bg-gold-bright/10 text-gold-bright border border-gold-bright/30 hover:bg-gold-bright/20 rounded transition-all flex items-center gap-1.5 cursor-pointer shadow-[0_0_10px_rgba(212,175,55,0.15)]">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                    Unduh .md
+                </button>
+            </div>
+        </div>
+        <div class="flex-1 p-5 overflow-auto bg-midnight-surface relative">
+            <textarea id="markdown-output" class="w-full h-full min-h-[400px] bg-transparent border-none resize-none outline-none text-text-secondary font-mono text-sm leading-relaxed" placeholder="Hasil konversi Markdown akan muncul di sini..." readonly></textarea>
+        </div>
+    </div>
+  </div>
+
+  <!-- New Markdown Preview Card -->
+  <div class="mt-8 bg-midnight-raised border border-midnight-border rounded-xl flex flex-col shadow-2xl animate-slide-up" style="animation-delay: 0.2s;">
+    <div class="bg-midnight-base border-b border-midnight-border py-4 px-5 flex items-center gap-2 relative z-10">
+        <svg class="w-5 h-5 text-cyber-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+        <h2 class="text-text-primary font-medium">Pratinjau Visual (Preview)</h2>
+    </div>
+    <div class="p-6 md:p-10 bg-midnight-surface rounded-b-xl overflow-auto min-h-[300px]">
+        <div id="markdown-preview" class="prose-article">
+            <p class="text-text-tertiary italic text-sm text-center mt-10">Pratinjau dokumen Anda akan muncul di sini...</p>
+        </div>
+    </div>
+  </div>
+</div>
+
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+<!-- Load libraries via CDN to bypass Vite bundling issues with heavy client-side workers -->
+<script is:inline src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<script is:inline src="https://unpkg.com/turndown/dist/turndown.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<style>
+  /* Customizing Quill to fit the container */
+  .ql-container {
+    font-size: 16px;
+    font-family: inherit;
+    flex: 1;
+    overflow-y: auto;
+  }
+  .ql-toolbar {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    background-color: #f8f9fa;
+  }
+  .ql-container.ql-snow {
+    border: none !important;
+  }
+</style>
+
+<script is:inline>
+  // Set worker context for pdf.js to use CDN
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // UI Elements
+    const tabWrite = document.getElementById('tab-write');
+    const tabUpload = document.getElementById('tab-upload');
+    const viewWrite = document.getElementById('view-write');
+    const viewUpload = document.getElementById('view-upload');
+    const outputArea = document.getElementById('markdown-output');
+    const previewArea = document.getElementById('markdown-preview');
+    
+    // Upload Elements
+    const fileUpload = document.getElementById('file-upload');
+    const btnBrowse = document.getElementById('btn-browse');
+    const uploadStatus = document.getElementById('upload-status');
+    const dropZone = document.getElementById('drop-zone');
+    const statusText = uploadStatus.querySelector('span');
+
+    // Action Elements
+    const btnCopy = document.getElementById('btn-copy');
+    const btnDownload = document.getElementById('btn-download');
+
+    // State
+    let currentMode = 'write';
+
+    // Init Turndown
+    const turndownService = new TurndownService({
+      headingStyle: 'atx',
+      codeBlockStyle: 'fenced'
+    });
+
+    // Init Quill
+    const quill = new Quill('#editor', {
+      theme: 'snow',
+      placeholder: 'Mulai mengetik teks Anda di sini...',
+      modules: {
+        toolbar: [
+          [{ 'header': [1, 2, 3, false] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          ['link', 'image'],
+          ['clean']
+        ]
+      }
+    });
+
+    // Helper to update output and preview simultaneously
+    function setMarkdownOutput(markdown) {
+        outputArea.value = markdown;
+        if (!markdown || markdown.trim() === '') {
+            previewArea.innerHTML = '<p class="text-text-tertiary italic text-sm text-center mt-10">Pratinjau dokumen Anda akan muncul di sini...</p>';
+        } else {
+            // marked is available globally from CDN
+            previewArea.innerHTML = marked.parse(markdown);
+        }
+    }
+
+    // Handle Rich Text Changes
+    quill.on('text-change', () => {
+      if (currentMode === 'write') {
+        const html = quill.root.innerHTML;
+        if (html === '<p><br></p>') {
+            setMarkdownOutput('');
+            return;
+        }
+        const markdown = turndownService.turndown(html);
+        setMarkdownOutput(markdown);
+      }
+    });
+
+    // Tab Switching
+    function switchTab(mode) {
+      currentMode = mode;
+      if (mode === 'write') {
+        tabWrite.classList.add('text-gold-bright', 'border-gold-bright', 'bg-midnight-surface/50');
+        tabWrite.classList.remove('text-text-tertiary', 'border-transparent');
+        
+        tabUpload.classList.add('text-text-tertiary', 'border-transparent');
+        tabUpload.classList.remove('text-gold-bright', 'border-gold-bright', 'bg-midnight-surface/50');
+        
+        viewWrite.classList.remove('hidden');
+        viewWrite.classList.add('flex');
+        viewUpload.classList.add('hidden');
+        viewUpload.classList.remove('flex');
+        
+        // Refresh output from quill
+        const html = quill.root.innerHTML;
+        setMarkdownOutput(html === '<p><br></p>' ? '' : turndownService.turndown(html));
+      } else {
+        tabUpload.classList.add('text-gold-bright', 'border-gold-bright', 'bg-midnight-surface/50');
+        tabUpload.classList.remove('text-text-tertiary', 'border-transparent');
+        
+        tabWrite.classList.add('text-text-tertiary', 'border-transparent');
+        tabWrite.classList.remove('text-gold-bright', 'border-gold-bright', 'bg-midnight-surface/50');
+        
+        viewUpload.classList.remove('hidden');
+        viewUpload.classList.add('flex');
+        viewWrite.classList.add('hidden');
+        viewWrite.classList.remove('flex');
+        
+        setMarkdownOutput('');
+      }
+    }
+
+    if (tabWrite && tabUpload) {
+        tabWrite.addEventListener('click', () => switchTab('write'));
+        tabUpload.addEventListener('click', () => switchTab('upload'));
+    }
+
+    // File Upload Handling
+    if (btnBrowse) {
+        btnBrowse.addEventListener('click', () => fileUpload?.click());
+    }
+
+    // Drag and Drop
+    if (dropZone) {
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-gold-ancient');
+            dropZone.classList.remove('border-midnight-border');
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-gold-ancient');
+            dropZone.classList.add('border-midnight-border');
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-gold-ancient');
+            dropZone.classList.add('border-midnight-border');
+            if (e.dataTransfer?.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+    }
+
+    if (fileUpload) {
+        fileUpload.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFile(e.target.files[0]);
+            }
+        });
+    }
+
+    async function handleFile(file) {
+        if (!uploadStatus || !outputArea) return;
+        uploadStatus.classList.remove('hidden');
+        statusText.textContent = `Memproses ${file.name}...`;
+        setMarkdownOutput('Sedang mengekstrak teks, harap tunggu...');
+        
+        try {
+            const ext = file.name.split('.').pop()?.toLowerCase();
+            let markdown = '';
+
+            if (ext === 'txt') {
+                const text = await file.text();
+                markdown = text;
+            } else if (ext === 'html') {
+                const text = await file.text();
+                // We might want to remove <style> and <script> tags before passing to turndown
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                
+                // Remove unwanted tags to ensure clean markdown
+                const scripts = doc.querySelectorAll('script, style');
+                scripts.forEach(s => s.remove());
+                
+                markdown = turndownService.turndown(doc.body || doc.documentElement);
+            } else if (ext === 'docx') {
+                const arrayBuffer = await file.arrayBuffer();
+                const result = await mammoth.convertToHtml({ arrayBuffer: arrayBuffer });
+                markdown = turndownService.turndown(result.value);
+            } else if (ext === 'pdf') {
+                markdown = await extractPdfText(file);
+            } else {
+                throw new Error('Format file tidak didukung. Harap unggah .txt, .docx, .pdf, atau .html');
+            }
+
+            setMarkdownOutput(markdown);
+            statusText.textContent = `Selesai memproses ${file.name}!`;
+            setTimeout(() => uploadStatus.classList.add('hidden'), 3000);
+        } catch (error) {
+            console.error(error);
+            statusText.textContent = 'Gagal memproses file.';
+            setMarkdownOutput(`Error: ${error.message}`);
+        }
+    }
+
+    async function extractPdfText(file) {
+        const arrayBuffer = await file.arrayBuffer();
+        const loadingTask = pdfjsLib.getDocument(arrayBuffer);
+        const pdf = await loadingTask.promise;
+        let fullText = '';
+        
+        for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const textContent = await page.getTextContent();
+            
+            // Reconstruct text
+            let pageText = '';
+            let lastY = -1;
+            
+            for (const item of textContent.items) {
+                if (lastY !== -1 && Math.abs(item.transform[5] - lastY) > 5) {
+                    pageText += '\n';
+                }
+                pageText += item.str;
+                lastY = item.transform[5];
+            }
+            
+            pageText = pageText.replace(/ {2,}/g, ' ');
+            fullText += `## Halaman ${i}\n\n${pageText}\n\n---\n\n`;
+        }
+        
+        return fullText;
+    }
+
+    // Actions
+    if (btnCopy) {
+        btnCopy.addEventListener('click', () => {
+            if (!outputArea?.value) return;
+            navigator.clipboard.writeText(outputArea.value).then(() => {
+                const originalText = btnCopy.innerHTML;
+                btnCopy.innerHTML = `<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg> Tersalin!`;
+                setTimeout(() => btnCopy.innerHTML = originalText, 2000);
+            });
+        });
+    }
+
+    if (btnDownload) {
+        btnDownload.addEventListener('click', () => {
+            if (!outputArea?.value) return;
+            const blob = new Blob([outputArea.value], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'hasil_konversi.md';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+    }
+  });
+</script>

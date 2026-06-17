@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MarkdownConverter from '../components/MarkdownConverter.astro';
+
+const title = 'Markdown Converter';
+const description = 'Konversi Teks Kaya (Rich Text), File TXT, DOCX, dan PDF ke format Markdown secara instan dan aman di browser Anda.';
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-8 flex justify-center">
+        <a href="/" class="text-accent-gold hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Kembali ke Beranda
+        </a>
+      </div>
+      
+      <MarkdownConverter />
+      
+      <div class="mt-16 max-w-3xl mx-auto bg-abyss/40 border border-border-dim rounded-xl p-6 text-parchment-300 text-sm leading-relaxed">
+        <h3 class="text-parchment-100 font-semibold text-base mb-3 flex items-center gap-2">
+          <svg class="w-5 h-5 text-accent-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Informasi Privasi & Keamanan
+        </h3>
+        <p class="mb-2">Semua proses konversi pada halaman ini dilakukan <strong>sepenuhnya di dalam browser Anda</strong> (Client-Side). File yang Anda unggah <strong>tidak pernah dikirim ke server manapun</strong>, sehingga privasi dokumen Anda terjamin 100%.</p>
+        <p>Perlu diketahui bahwa ekstraksi teks dari PDF berfokus pada pengambilan teks mentah. Jika PDF berisi gambar kompleks atau tata letak kolom ganda, urutan teks mungkin memerlukan sedikit penyesuaian manual setelah konversi.</p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
