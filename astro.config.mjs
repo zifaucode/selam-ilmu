@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://selam-ilmu.pages.dev',
+  site: 'https://selam-ilmu.vercel.app',
   vite: {
     plugins: [tailwindcss()]
   },

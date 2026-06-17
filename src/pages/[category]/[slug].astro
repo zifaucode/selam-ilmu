@@ -64,7 +64,11 @@ if (article.data.related && article.data.related.length > 0) {
 }
 ---
 
-<BaseLayout title={article.data.title} description={article.data.summary}>
+<BaseLayout 
+  title={article.data.title} 
+  description={article.data.summary}
+  ogImage={article.data.image}
+>
   <article class="py-12 sm:py-16">
     <div class="max-w-3xl mx-auto px-4 sm:px-6">
       <!-- Breadcrumb -->
